@@ -1,21 +1,16 @@
-// import { User } from "@prisma/client";
-import { User } from "../../../node_modules/.prisma/client/index";
-import { CreateUserDTO } from "../../dto/createUser.dto";
-import { LoginDTO } from "../../dto/login.dto";
-import { hashPassword } from "../../utils/password.util";
+import { LoginDTO } from "../../dtos/login.dto";
 import { AuthService } from "../auth.service";
 import Jwt  from "jsonwebtoken"
-import env from 'dotenv'
 import { db } from "../../config/db";
 import { comparePassword } from "../../utilis/password.utils";
 import { CustomError } from "../../utilis/customError";
 
 
 export class AuthServiceImpl implements AuthService{
-    createUser(data: CreateUserDTO): Promise<User> {
-        throw new Error("Method not implemented.");
-    }
-    // requestPasswordReset(data: RequestResetPasswordDTO): Promise<void>
+    // createUser(data: CreateUserDTO): Promise<User> {
+    //     throw new Error("Method not implemented.");
+    // }
+    // // requestPasswordReset(data: RequestResetPasswordDTO): Promise<void>
 
     async login(
         data: LoginDTO
