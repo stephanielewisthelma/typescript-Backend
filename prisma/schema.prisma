@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum USER_ROLE {
   ADMIN
   USER
@@ -21,42 +20,45 @@ enum USER_ROLE {
 }
 
 model User {
-  id           Int         @id @default(autoincrement())
-  email        String      @unique
-  password     String     
-  firstName    String?  
-  lastName     String?
-  role         USER_ROLE        @default(USER)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  firstName   String?
+  lastName    String?
+  verifyEmail Boolean   @default(false)
+  otp         String?
+  otpExpires  String?
+  role        USER_ROLE @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   // Relations
-  Enrollment   Enrollment[]
-  instructorEnrollment  Enrollment[]   @relation(name: "instructorEnrollment")
+  Enrollment           Enrollment[]
+  instructorEnrollment Enrollment[] @relation(name: "instructorEnrollment")
 }
 
 model Course {
-  id           Int         @id @default(autoincrement())
-  title        String
-  description  String?
-  price        Float
-  duration     Int
-  enrollments  Enrollment[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  price       Float
+  duration    Int
+  enrollments Enrollment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Enrollment {
-  id           Int         @id @default(autoincrement())
-  user         User        @relation(fields: [userId], references: [id])
-  userId       Int
-  course       Course      @relation(fields: [courseId], references: [id])
-  courseId     Int
-  status       EnrollmentStatus  @default(ACTIVE)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id        Int              @id @default(autoincrement())
+  user      User             @relation(fields: [userId], references: [id])
+  userId    Int
+  course    Course           @relation(fields: [courseId], references: [id])
+  courseId  Int
+  status    EnrollmentStatus @default(ACTIVE)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
-  User         User[]      @relation("instructorEnrollment")
+  User User[] @relation("instructorEnrollment")
 }
 
 enum Role {
@@ -68,5 +70,5 @@ enum Role {
 enum EnrollmentStatus {
   ACTIVE
   COMPLETED
-  DROPOUT
+  DROPOUT
 }

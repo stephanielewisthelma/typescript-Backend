@@ -1,11 +1,12 @@
 import { Response, Request, NextFunction } from "express";
 import { UserServiceImpl } from "../service/implementation/user.service.impl";
 import { CreateUserDTO } from "../dtos/createUser.dto";
+import { StatusCodes } from "../../node_modules/http-status-codes/build/cjs/status-codes";
+import { CustomRequest } from "../middleware/auth.middleware";
 
 export class UserController {
-  static createCourse(arg0: string, createCourse: any) {
-      throw new Error("Method not implemented.");
-  }
+  // getAllUsers: RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>;
+
   private userService: UserServiceImpl;
 
   constructor() {
@@ -47,14 +48,33 @@ export class UserController {
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> => {
+  ): Promise<void> => {
     try {
-        const userId = parseInt(req.params.id);
-        const userData = req.body as Partial<CreateUserDTO>;
-        const updatedUser = await this.userService.updateUser(userId, userData);
-        res.status(200).json(updatedUser);
+      const userId = parseInt(req.params.id);
+      const userData = req.body as Partial<CreateUserDTO>;
+      const updatedUser = await this.userService.updateUser(userId, userData);
+      res.status(200).json(updatedUser);
     } catch (error) {
-        next(error);
-        }
-    }
+      next(error);
+    }
+  };
+
+  public profile = async (
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void | any> => {
+    try {
+      const id = req.userAuth;
+      const user = await this.userService.getUserById(Number(id));
+
+      res.status(StatusCodes.OK).json({
+        error: false,
+        message: "User profile retrieved successfully",
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

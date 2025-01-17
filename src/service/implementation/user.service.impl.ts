@@ -5,13 +5,26 @@ import { CustomError } from "../../utilis/customError";
 import { db } from "../../config/db";
 import { User } from "../../../node_modules/.prisma/client/default";
 import { hashPassword } from "../../utilis/password.utils";
+import { StatusCodes } from "../../../node_modules/http-status-codes/build/cjs/status-codes";
   
 
 
 export class UserServiceImpl implements UserService{
-    getAllsers(): Promise<User[]> {
-        throw new Error("Method not implemented.");
+    async profile(id: number): Promise<Omit<User, "password">> {
+        const user = await db.user.findFirst({
+            where: { id },
+          });
+      
+          if (!user) {
+            throw new CustomError(
+              StatusCodes.NOT_FOUND,
+              `user with id ${id} not found`
+            );
+          }
+          return user;
     }
+    
+    
     async createUser(data: CreateUserDTO): Promise<User> {
         const isUserExist = await db.user.findFirst({
             where: {
@@ -64,4 +77,19 @@ export class UserServiceImpl implements UserService{
             where: { id },
         });
     }
+    // async Profile(id:number): Promise<Omit<User,"password">>{
+    //     const user = await db.user.findFirst({
+    //         where:{
+    //             id,
+    //         },
+    //     });
+
+    //     if (user){
+    //         throw new CustonError(
+    //             StatusCodes.NOT_FOUND
+    //             ``
+    //         )
+    //     }
+
+    // }
 }
