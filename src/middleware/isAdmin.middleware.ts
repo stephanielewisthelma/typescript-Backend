@@ -31,4 +31,4 @@ export const isAdmin = async (
         }
     }
 
-// export default isAdmin;
+export default isAdmin;

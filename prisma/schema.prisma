@@ -29,8 +29,10 @@ model User {
   otp         String?
   otpExpires  String?
   role        USER_ROLE @default(USER)
+  googleId    String?  @unique
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
 
   // Relations
   Enrollment           Enrollment[]
