@@ -20,20 +20,25 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.1",
     "@types/node": "^22.10.2",
+    "@types/nodemailer": "^6.4.17",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.16",
     "@types/qs": "^6.9.17",
+    "@types/react": "^19.0.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
+    "@react-email/components": "^0.0.32",
+    "@react-email/render": "^1.0.4",
     "@types/dotenv": "^6.1.1",
     "@types/jsonwebtoken": "^9.0.7",
-    "@types/passport": "^1.0.17",
-    "@types/passport-google-oauth20": "^2.0.16",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -44,8 +49,11 @@
     "http-status-code": "^2.1.0",
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
+    "node-mailer": "^0.1.1",
+    "nodemailer": "^6.9.16",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "prisma": "^6.1.0"
+    "prisma": "^6.1.0",
+    "react-mail": "^0.0.1"
   }
 }

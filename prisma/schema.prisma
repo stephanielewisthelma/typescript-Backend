@@ -22,7 +22,7 @@ enum USER_ROLE {
 model User {
   id          Int       @id @default(autoincrement())
   email       String    @unique
-  password    String
+  password    String?
   firstName   String?
   lastName    String?
   verifyEmail Boolean   @default(false)
@@ -72,5 +72,5 @@ enum Role {
 enum EnrollmentStatus {
   ACTIVE
   COMPLETED
-  DROPOUT
+  DROPOUT
 }

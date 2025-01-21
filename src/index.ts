@@ -1,10 +1,11 @@
+
 import express from 'express'
 import dotenv from "dotenv"
 import cors from "cors"
-import userRouter from './routes/user.route';
 import { errorHandler } from './utilis/errorHandler';
-import courseRouter from './routes/courses.routes';
 import authRoutes from './routes/auth.routes';
+import oauthRoutes from './routes/Oauth.routes';
+import { on } from 'events';
 
 dotenv.config();
 
@@ -26,17 +27,11 @@ const corsOption ={
 };
 
 app.use(cors(corsOption));
-
 app.use(express.json());
-
-// app.use("/api/v1/users", userRouter)
-
-// app.use("/api/v1/courses", courseRouter)
-
-app.use("/api/v1/login", authRoutes)
-
+app.use("/api/v1/auth", oauthRoutes),
+app.use("/api/v1/login",authRoutes)
 app.use(errorHandler)
 
 app.listen(PORT, () =>{
-    console.log(`server is running on port ${PORT}`)
+    console.log(`server is running on port ${PORT}`)
 });
