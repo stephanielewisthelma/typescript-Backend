@@ -11,8 +11,13 @@ import { hashPassword } from "../../utilis/password.utils";
 import { StatusCodes } from "http-status-codes";
 import { sendOtpEmail, welcomeEmail } from "../../tsxFiles/email";
 import { User } from "@prisma/client";
+import { EmailOtpDTO } from "../../dtos/emailOtp.dto";
+import { ResetPasswordDTO } from "../../dtos/resetPassword.dto";
 
 export class AuthServiceImpl implements AuthService {
+    resetPassword(data: ResetPasswordDTO): Promise<string> {
+        throw new Error("Method not implemented.");
+    }
     async login(data: LoginDTO): Promise<{ accessToken: string; refreshToken: string }> {
         const user = await db.user.findUnique({
             where: {
@@ -138,4 +143,38 @@ export class AuthServiceImpl implements AuthService {
     generateOtpExpiration() {
         return new Date(Date.now() + 10 * 60 * 1000)
     }
+   
+async forgotPassword(data: EmailOtpDTO): Promise<User> {
+    const otp = generateOtp();
+    const isUser = await db.user.findFirst({
+      where: {
+        email: data.email,
+      },
+    });
+
+    if (!isUser) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, "User not found");
+    }
+
+    const hashedOtp = await hashPassword(otp);
+
+    await db.user.update({
+      where: {
+        email: data.email,
+      },
+      data: {
+        otp: hashedOtp,
+        otpExpires: this.generateOtpExpiration().toString(),
+      },
+    });
+
+    await sendOtpEmail({
+      to: data.email,
+      subject: "Password Reset OTP",
+      otp: `your password reset otp is ${otp}. It's valid for only ten minutes`,
+    });
+
+    return isUser;
+  }
+
 }
