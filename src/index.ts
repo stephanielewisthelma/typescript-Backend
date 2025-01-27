@@ -1,11 +1,13 @@
 
-import express from 'express'
+import { Express } from "express";
 import dotenv from "dotenv"
 import cors from "cors"
 import { errorHandler } from './utilis/errorHandler';
 import authRoutes from './routes/auth.routes';
 import oauthRoutes from './routes/Oauth.routes';
-import { on } from 'events';
+import express, { Application } from "express";
+// import { PORT } from "./config/config";
+import twoFactorRoutes from "./routes/twoFactor.routes";
 
 dotenv.config();
 
@@ -35,3 +37,16 @@ app.use(errorHandler)
 app.listen(PORT, () =>{
     console.log(`server is running on port ${PORT}`)
 });
+
+
+
+// const app: Application = express();
+
+app.use(express.json());
+app.use("/api", twoFactorRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+

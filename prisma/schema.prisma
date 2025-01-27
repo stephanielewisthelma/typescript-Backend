@@ -20,23 +20,32 @@ enum USER_ROLE {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String    @unique
-  password    String?
-  firstName   String?
-  lastName    String?
-  verifyEmail Boolean   @default(false)
-  otp         String?
-  otpExpires  String?
-  role        USER_ROLE @default(USER)
-  googleId    String?  @unique
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  password       String?
+  firstName      String?
+  lastName       String?
+  profilePicture String?
+  verifyEmail    Boolean   @default(false)
+  otp            String?
+  otpExpires     String?
+  role           USER_ROLE @default(USER)
+  googleId       String?   @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   // Relations
   Enrollment           Enrollment[]
-  instructorEnrollment Enrollment[] @relation(name: "instructorEnrollment")
+  instructorEnrollment Enrollment[]      @relation(name: "instructorEnrollment")
+  passwordHistory      passwordHistory[]
+}
+
+model passwordHistory {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       Int
+  passwordHash String
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model Course {
@@ -72,5 +81,5 @@ enum Role {
 enum EnrollmentStatus {
   ACTIVE
   COMPLETED
-  DROPOUT
+  DROPOUT
 }
