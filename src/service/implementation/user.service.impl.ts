@@ -7,7 +7,7 @@ import { User } from "../../../node_modules/.prisma/client/default";
 import { comparePassword, hashPassword } from "../../utilis/password.utils";
 import { StatusCodes } from "../../../node_modules/http-status-codes/build/cjs/status-codes";
 import { changePasswordDTO } from "../../dtos/changePassword.dto";
-import { ResetPasswordDTO } from "../../dtos/resetPassword.dto";
+
   
 
 
